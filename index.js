@@ -1,5 +1,8 @@
 const dotenv = require('dotenv').config();
 
+//const session = require("express-session");
+//const MongoStore = require("connect-mongo")(session);
+
 const { Keystone } = require('@keystonejs/keystone');
 const { GraphQLApp } = require('@keystonejs/app-graphql');
 const { AdminUIApp } = require('@keystonejs/app-admin-ui');
@@ -24,14 +27,16 @@ const isAdmin = ({ authentication: { item: user } }) => {
 const isLoggedIn = ({ authentication: { item: user } }) => {
   return !!user
 }
+
 const keystone = new Keystone({
   adapter: new Adapter(adapterConfig),
   cookieSecret: process.env.COOKIE_SECRET
 });
 
-//keystone.createList('Post', PostSchema)
-//keystone.createList('User', UserSchema)
 
+keystone.createList('Post', PostSchema)
+keystone.createList('User', UserSchema)
+/*
 //Para crear un post tienes que estar logeado
 keystone.createList('Post', {
   fields: PostSchema.fields,
@@ -52,7 +57,7 @@ keystone.createList('User', {
     delete: isAdmin,
   },
 })
-
+*/
 
 const authStrategy = keystone.createAuthStrategy({
   type: PasswordAuthStrategy,
@@ -68,7 +73,7 @@ module.exports = {
   apps: [new GraphQLApp(), new AdminUIApp({ 
     name: PROJECT_NAME, 
     enableDefaultRoute: true, 
-    authStrategy,
-    isAccessAllowed: isLoggedIn //'isAdmin' Solo para que ingrese al login admin users
+    //authStrategy,
+    //isAccessAllowed: isLoggedIn //'isAdmin' Solo para que ingrese al login admin users
   })],
 };
