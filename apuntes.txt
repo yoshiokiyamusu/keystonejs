@@ -20,15 +20,16 @@ query{
 ---------------------------------------
 Deploy to heroku
 
+git add .
+git commit -m "commit comment"
+git push keystone_repo2 master
+
+
 echo "# keystonejs" >> README.md
 git init
 git add README.md
 git commit -m "first commit"
 git branch -M main
-git remote add keystone_repo https://github.com/yoshiokiyamusu/keystonejs.git
+git remote add keystone_repo2 https://github.com/yoshiokiyamusu/keystonejs.git
 git push -u origin main
 
-
-git add .
-git commit -m "commit comment"
-git push keystone_repo master
